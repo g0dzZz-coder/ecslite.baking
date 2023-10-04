@@ -1,24 +1,28 @@
 {
-    "name": "com.voody.unileo.lite",
-    "displayName": "UniLeo-Lite",
-    "description": "Unity Conversion Workflow for Leopotam ECS Lite. Easy convert GameObjects to Entity.",
-    "unity": "2019.1",
-    "version": "1.1.1",
-    "keywords": [
-        "leoecs",
-        "ecs",
-        "performance",
-        "voody2506",
-        "UniLeo",
-        "UniLeo Lite"
-    ],
-    "dependencies": {},
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/voody2506/UniLeo-Lite.git"
-    },
-    "author": {
-      "name": "Voody2506",
-      "email": "voody2506@gmail.com"
-    }
+	"name": "com.depra.ecslite.baking",
+	"version": "0.0.1",
+	"displayName": "LeoECS Lite Baking",
+	"description": "Unity Conversion Workflow for Leopotam ECS Lite. Easy convert GameObjects to Entity.",
+	"unity": "2022.3",
+	"license": "Apache-2.0",
+	"keywords": [
+		"leoecs",
+		"ecs",
+		"bake",
+		"baking",
+		"entity",
+		"convert",
+		"conversion",
+		"performance"
+	],
+	"dependencies": {},
+	"author": {
+		"name": "godzZz",
+		"email": "n.melnikov@depra.org",
+		"url": "https://github.com/g0dzZz-coder"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/g0dzZz-coder/ecslite.baking.git"
+	}
 }
