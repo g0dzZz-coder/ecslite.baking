@@ -1,4 +1,7 @@
-﻿using Leopotam.EcsLite.Baking.Runtime.Entities;
+﻿// SPDX-License-Identifier: Apache-2.0
+// © 2023 Nikolay Melnikov <n.melnikov@depra.org>
+
+using Leopotam.EcsLite.Baking.Runtime.Entities;
 using UnityEngine;
 
 namespace Leopotam.EcsLite.Baking.Runtime.Components

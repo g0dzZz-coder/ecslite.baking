@@ -1,4 +1,7 @@
-﻿using System.Runtime.CompilerServices;
+﻿// SPDX-License-Identifier: Apache-2.0
+// © 2023 Nikolay Melnikov <n.melnikov@depra.org>
+
+using System.Runtime.CompilerServices;
 
 namespace Leopotam.EcsLite.Baking.Runtime.Components
 {
