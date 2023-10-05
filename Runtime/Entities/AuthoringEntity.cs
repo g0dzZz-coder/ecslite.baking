@@ -7,32 +7,31 @@ using UnityEngine;
 namespace Leopotam.EcsLite.Baking.Runtime.Entities
 {
 	[DisallowMultipleComponent]
-	public sealed class ConvertibleEntity : MonoBehaviour
+	public sealed class AuthoringEntity : MonoBehaviour
 	{
-		[SerializeField] internal ConvertMode _mode;
+		[SerializeField] internal ConversionMode _mode;
 		[SerializeField] internal string _customWorld;
 
-		private bool _isProcessed;
+		private bool _processed;
 		private EcsPackedEntityWithWorld _entity;
 
-		private void Start()
+		private void OnEnable()
 		{
-			var world = SceneWorld.World;
-			if (world == null || _isProcessed)
+			var world = BakingWorld.World;
+			if (world == null || _processed)
 			{
 				return;
 			}
 
-			var entity = world.NewEntity();
-			ref var convertibleReference = ref world.GetPool<ConvertibleGameObject>().Add(entity);
-			convertibleReference.GameObject = gameObject;
-			convertibleReference.WorldName = _customWorld;
+			ref var convertibleEntity = ref world.GetPool<ConvertibleEntityRef>().Add(world.NewEntity());
+			convertibleEntity.GameObject = gameObject;
+			convertibleEntity.WorldName = _customWorld;
 		}
 
 		public int? TryGetEntity() => _entity.Unpack(out _, out var entity) ? entity : null;
 
 		internal void Initialize(EcsPackedEntityWithWorld entity) => _entity = entity;
 
-		internal void MarkAsProcessed() => _isProcessed = true;
+		internal void MarkAsProcessed() => _processed = true;
 	}
 }

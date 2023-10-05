@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Leopotam.EcsLite.Baking.Runtime.Internal
 {
-    internal struct ConvertibleGameObject
+    internal struct ConvertibleEntityRef
     {
         public string WorldName;
         public GameObject GameObject;

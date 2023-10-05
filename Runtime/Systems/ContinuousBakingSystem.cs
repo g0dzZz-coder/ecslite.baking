@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // © 2023 Nikolay Melnikov <n.melnikov@depra.org>
 
+using Leopotam.EcsLite.Baking.Runtime.Entities;
 using Leopotam.EcsLite.Baking.Runtime.Internal;
 
 namespace Leopotam.EcsLite.Baking.Runtime.Systems
@@ -11,17 +12,17 @@ namespace Leopotam.EcsLite.Baking.Runtime.Systems
 	[Il2CppSetOption(Option.NullChecks, false)]
 	[Il2CppSetOption(Option.ArrayBoundsChecks, false)]
 #endif
-	public sealed class SceneWorldExecuteSystem : IEcsPreInitSystem, IEcsRunSystem
+	public sealed class ContinuousBakingSystem : IEcsPreInitSystem, IEcsRunSystem
 	{
 		private EcsWorld _world;
 		private EcsFilter _entities;
-		private EcsPool<ConvertibleGameObject> _convertibles;
+		private EcsPool<ConvertibleEntityRef> _convertibles;
 
 		void IEcsPreInitSystem.PreInit(IEcsSystems systems)
 		{
 			_world = systems.GetWorld();
-			_entities = _world.Filter<ConvertibleGameObject>().End();
-			_convertibles = _world.GetPool<ConvertibleGameObject>();
+			_entities = _world.Filter<ConvertibleEntityRef>().End();
+			_convertibles = _world.GetPool<ConvertibleEntityRef>();
 		}
 
 		void IEcsRunSystem.Run(IEcsSystems systems)
@@ -29,10 +30,9 @@ namespace Leopotam.EcsLite.Baking.Runtime.Systems
 			foreach (var entity in _entities)
 			{
 				ref var convertible = ref _convertibles.Get(entity);
-
-				if (convertible.GameObject)
+				if (convertible.GameObject && convertible.GameObject.TryGetComponent(out AuthoringEntity authoring))
 				{
-					SceneEntity.TryConvert(convertible.GameObject, systems, convertible.WorldName);
+					BakingUtility.Bake(authoring, systems, convertible.WorldName);
 				}
 
 				_world.DelEntity(entity);

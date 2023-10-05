@@ -3,12 +3,12 @@
 
 namespace Leopotam.EcsLite.Baking.Runtime.Internal
 {
-    internal static class SceneWorld
+    internal static class BakingWorld
     {
         public static EcsWorld World;
 
         public static void Initialize(EcsWorld world) => World = world;
 
-        public static void Destroy() => World = null;
+        public static void Dispose() => World = null;
     }
 }

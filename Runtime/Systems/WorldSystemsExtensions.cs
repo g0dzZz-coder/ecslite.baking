@@ -9,8 +9,8 @@ namespace Leopotam.EcsLite.Baking.Runtime.Systems
 	{
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static IEcsSystems ConvertScene<TSystems>(this TSystems self) where TSystems : IEcsSystems => self
-			.Add(new SceneWorldInitSystem())
-			.Add(new SceneWorldExecuteSystem())
-			.Add(new SceneWorldDestroySystem());
+			.Add(new BakingServiceSystem())
+			.Add(new InitialBakingSystem())
+			.Add(new ContinuousBakingSystem());
 	}
 }

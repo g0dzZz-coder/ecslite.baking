@@ -7,16 +7,14 @@ using UnityEngine;
 
 namespace Leopotam.EcsLite.Baking.Runtime.Systems
 {
-	public readonly struct SceneWorldInitSystem : IEcsPreInitSystem
+	public readonly struct InitialBakingSystem : IEcsPreInitSystem
 	{
 		void IEcsPreInitSystem.PreInit(IEcsSystems systems)
 		{
-			foreach (var convertible in Object.FindObjectsOfType<ConvertibleEntity>())
+			foreach (var authoringEntity in Object.FindObjectsOfType<AuthoringEntity>())
 			{
-				SceneEntity.TryConvert(convertible.gameObject, systems, convertible._customWorld);
+				BakingUtility.Bake(authoringEntity, systems, authoringEntity._customWorld);
 			}
-
-			SceneWorld.Initialize(systems.GetWorld());
 		}
 	}
 }

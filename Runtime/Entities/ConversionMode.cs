@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Leopotam.EcsLite.Baking.Runtime.Entities
 {
-	internal enum ConvertMode
+	internal enum ConversionMode
 	{
 		[InspectorName("Convert and Inject")]
 		CONVERT_AND_INJECT,
