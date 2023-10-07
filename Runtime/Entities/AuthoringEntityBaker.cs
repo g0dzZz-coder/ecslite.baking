@@ -3,11 +3,10 @@
 
 using System;
 using Leopotam.EcsLite.Baking.Runtime.Components;
-using Leopotam.EcsLite.Baking.Runtime.Entities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Leopotam.EcsLite.Baking.Runtime.Internal
+namespace Leopotam.EcsLite.Baking.Runtime.Entities
 {
 #if ENABLE_IL2CPP
 	using Unity.IL2CPP.CompilerServices;
@@ -15,36 +14,41 @@ namespace Leopotam.EcsLite.Baking.Runtime.Internal
 	[Il2CppSetOption(Option.NullChecks, false)]
 	[Il2CppSetOption(Option.ArrayBoundsChecks, false)]
 #endif
-	internal static class BakingUtility
+	internal readonly ref struct AuthoringEntityBaker
 	{
-		public static void Bake(AuthoringEntity authoringEntity, IEcsSystems systems, string worldName)
+		private readonly AuthoringEntity _authoringEntity;
+
+		public AuthoringEntityBaker(AuthoringEntity authoringEntity) =>
+			_authoringEntity = authoringEntity;
+
+		public void Bake(IEcsSystems systems, string worldName)
 		{
 			var world = systems.GetWorld(worldName == string.Empty ? null : worldName);
 			var entity = world.NewEntity();
 			var packedEntity = world.PackEntityWithWorld(entity);
 
-			foreach (var authoring in authoringEntity.GetComponents<IAuthoring>())
+			foreach (var authoring in _authoringEntity.GetComponents<IAuthoring>())
 			{
 				authoring.CreateBaker(packedEntity).Bake(authoring);
 				Object.Destroy((Component) authoring);
 			}
 
-			authoringEntity.MarkAsProcessed();
-			FinalizeConversion(authoringEntity, packedEntity);
+			_authoringEntity.MarkAsProcessed();
+			FinalizeConversion(packedEntity);
 		}
 
-		private static void FinalizeConversion(AuthoringEntity authoring, EcsPackedEntityWithWorld entity)
+		private void FinalizeConversion(EcsPackedEntityWithWorld entity)
 		{
-			switch (authoring._mode)
+			switch (_authoringEntity._mode)
 			{
 				case ConversionMode.CONVERT_AND_DESTROY:
-					Object.Destroy(authoring.gameObject);
+					Object.Destroy(_authoringEntity.gameObject);
 					break;
 				case ConversionMode.CONVERT_AND_INJECT:
-					Object.Destroy(authoring);
+					Object.Destroy(_authoringEntity);
 					break;
 				case ConversionMode.CONVERT_AND_SAVE:
-					authoring.Initialize(entity);
+					_authoringEntity.Initialize(entity);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

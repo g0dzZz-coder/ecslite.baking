@@ -3,9 +3,9 @@
 
 using UnityEngine;
 
-namespace Leopotam.EcsLite.Baking.Runtime.Internal
+namespace Leopotam.EcsLite.Baking.Runtime.Entities
 {
-    internal struct ConvertibleEntityRef
+    internal struct BakingEntityRef
     {
         public string WorldName;
         public GameObject GameObject;

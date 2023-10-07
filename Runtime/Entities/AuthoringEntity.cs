@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // © 2023 Nikolay Melnikov <n.melnikov@depra.org>
 
-using Leopotam.EcsLite.Baking.Runtime.Internal;
+using Leopotam.EcsLite.Baking.Runtime.Services;
 using UnityEngine;
 
 namespace Leopotam.EcsLite.Baking.Runtime.Entities
@@ -23,9 +23,9 @@ namespace Leopotam.EcsLite.Baking.Runtime.Entities
 				return;
 			}
 
-			ref var convertibleEntity = ref world.GetPool<ConvertibleEntityRef>().Add(world.NewEntity());
-			convertibleEntity.GameObject = gameObject;
-			convertibleEntity.WorldName = _customWorld;
+			ref var bakingEntity = ref world.GetPool<BakingEntityRef>().Add(world.NewEntity());
+			bakingEntity.GameObject = gameObject;
+			bakingEntity.WorldName = _customWorld;
 		}
 
 		public int? TryGetEntity() => _entity.Unpack(out _, out var entity) ? entity : null;

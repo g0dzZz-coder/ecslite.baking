@@ -2,7 +2,6 @@
 // © 2023 Nikolay Melnikov <n.melnikov@depra.org>
 
 using Leopotam.EcsLite.Baking.Runtime.Entities;
-using Leopotam.EcsLite.Baking.Runtime.Internal;
 using UnityEngine;
 
 namespace Leopotam.EcsLite.Baking.Runtime.Systems
@@ -13,7 +12,7 @@ namespace Leopotam.EcsLite.Baking.Runtime.Systems
 		{
 			foreach (var authoringEntity in Object.FindObjectsOfType<AuthoringEntity>())
 			{
-				BakingUtility.Bake(authoringEntity, systems, authoringEntity._customWorld);
+				new AuthoringEntityBaker(authoringEntity).Bake(systems, authoringEntity._customWorld);
 			}
 		}
 	}

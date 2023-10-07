@@ -2,7 +2,6 @@
 // © 2023 Nikolay Melnikov <n.melnikov@depra.org>
 
 using Leopotam.EcsLite.Baking.Runtime.Entities;
-using Leopotam.EcsLite.Baking.Runtime.Internal;
 
 namespace Leopotam.EcsLite.Baking.Runtime.Systems
 {
@@ -16,23 +15,23 @@ namespace Leopotam.EcsLite.Baking.Runtime.Systems
 	{
 		private EcsWorld _world;
 		private EcsFilter _entities;
-		private EcsPool<ConvertibleEntityRef> _convertibles;
+		private EcsPool<BakingEntityRef> _bakingEntities;
 
 		void IEcsPreInitSystem.PreInit(IEcsSystems systems)
 		{
 			_world = systems.GetWorld();
-			_entities = _world.Filter<ConvertibleEntityRef>().End();
-			_convertibles = _world.GetPool<ConvertibleEntityRef>();
+			_entities = _world.Filter<BakingEntityRef>().End();
+			_bakingEntities = _world.GetPool<BakingEntityRef>();
 		}
 
 		void IEcsRunSystem.Run(IEcsSystems systems)
 		{
 			foreach (var entity in _entities)
 			{
-				ref var convertible = ref _convertibles.Get(entity);
-				if (convertible.GameObject && convertible.GameObject.TryGetComponent(out AuthoringEntity authoring))
+				ref var bakingEntity = ref _bakingEntities.Get(entity);
+				if (bakingEntity.GameObject && bakingEntity.GameObject.TryGetComponent(out AuthoringEntity authoring))
 				{
-					BakingUtility.Bake(authoring, systems, convertible.WorldName);
+					new AuthoringEntityBaker(authoring).Bake(systems, bakingEntity.WorldName);
 				}
 
 				_world.DelEntity(entity);
