@@ -12,10 +12,10 @@
 		"baking",
 		"entity",
 		"convert",
+		"authoring",
 		"conversion",
 		"performance"
 	],
-	"dependencies": {},
 	"author": {
 		"name": "godzZz",
 		"email": "n.melnikov@depra.org",
